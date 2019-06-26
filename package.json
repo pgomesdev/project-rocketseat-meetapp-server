@@ -1,0 +1,17 @@
+{
+  "name": "rocketseat-meetapp-server",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/pgomesdev/rocketseat-meetapp-server.git",
+  "author": "pgomesdev <pgomesdev@gmail.com>",
+  "license": "MIT",
+  "devDependencies": {
+    "eslint": "^5.16.0",
+    "eslint-config-airbnb-base": "^13.1.0",
+    "eslint-plugin-import": "^2.18.0",
+    "nodemon": "^1.19.1",
+    "prettier": "^1.18.2",
+    "sequelize-cli": "^5.5.0",
+    "sucrase": "^3.10.1"
+  }
+}
