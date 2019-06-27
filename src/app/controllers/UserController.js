@@ -30,9 +30,29 @@ class UserController {
   }
 
   async update(req, res) {
+    const schema = Yup.object().shape({
+      fullname: Yup.string(),
+      username: Yup.string(),
+      email: Yup.string().email(),
+      oldPassword: Yup.string()
+        .min(6)
+        .when('password', (password, field) => (password ? field.required() : field)),
+      password: Yup.string().min(6),
+      // .when('oldPassword', (oldPassword, field) => (oldPassword ? field.required() : field)),
+      confirmPassword: Yup.string()
+        .min(6)
+        .when('password', (password, field) => (password ? field.required().oneOf([Yup.ref('password')]) : field)),
+    });
+
+    if (!(await schema.isValid(req.body))) {
+      return res.status(400).json({ error: 'Invalid request' });
+    }
+
     const { email, oldPassword } = req.body;
 
     const user = await User.findByPk(req.userId);
+
+    console.log(user);
 
     if (email && email !== user.email && (await User.findOne({ where: { email } }))) {
       return res.status(400).json({ error: 'User already exists' });
