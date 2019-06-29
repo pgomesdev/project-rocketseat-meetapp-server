@@ -1,4 +1,5 @@
 import * as Yup from 'yup';
+import { isAfter, parseISO } from 'date-fns';
 import Meetup from '../models/Meetup';
 
 class MeetupController {
@@ -13,6 +14,12 @@ class MeetupController {
 
     if (!(await schema.isValid(req.body))) {
       return res.status(400).json({ error: 'Invalid request' });
+    }
+
+    if (!isAfter(parseISO(req.body.date), new Date())) {
+      return res
+        .status(400)
+        .json({ error: "Can't create an event with a date that is already gone" });
     }
 
     const meetup = await Meetup.create({
