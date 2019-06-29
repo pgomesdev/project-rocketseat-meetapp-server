@@ -1,6 +1,5 @@
 import * as Yup from 'yup';
 import { isAfter, parseISO } from 'date-fns';
-import { Op } from 'sequelize';
 import Meetup from '../models/Meetup';
 
 class MeetupController {
