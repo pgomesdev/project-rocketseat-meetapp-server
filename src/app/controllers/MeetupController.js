@@ -1,6 +1,8 @@
 import * as Yup from 'yup';
 import { isAfter, parseISO } from 'date-fns';
 import Meetup from '../models/Meetup';
+import User from '../models/User';
+import File from '../models/File';
 
 class MeetupController {
   async index(req, res) {
@@ -8,6 +10,19 @@ class MeetupController {
       where: {
         user_id: req.userId,
       },
+      attributes: ['id', 'name', 'description', 'location', 'date'],
+      include: [
+        {
+          model: User,
+          as: 'user',
+          attributes: ['fullname', 'username', 'email'],
+        },
+        {
+          model: File,
+          as: 'banner',
+          attributes: ['name', 'path', 'url'],
+        },
+      ],
     });
 
     return res.json(meetup);
