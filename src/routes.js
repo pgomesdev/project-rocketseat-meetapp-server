@@ -4,6 +4,7 @@ import multerConfig from './config/multer';
 import UserController from './app/controllers/UserController';
 import SessionController from './app/controllers/SessionController';
 import FileController from './app/controllers/FileController';
+import MeetupController from './app/controllers/MeetupController';
 import auth from './app/middlewares/auth';
 
 const routes = new Router();
@@ -19,6 +20,9 @@ routes.use(auth);
 
 // User
 routes.put('/users', UserController.update);
+
+// Meetup
+routes.post('/meetups', MeetupController.store);
 
 // File
 routes.post('/files', upload.single('file'), FileController.store);

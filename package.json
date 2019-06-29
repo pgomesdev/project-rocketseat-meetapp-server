@@ -6,7 +6,7 @@
   "author": "pgomesdev <pgomesdev@gmail.com>",
   "license": "MIT",
   "scripts": {
-    "dev": "nodemon"
+    "dev": "nodemon src/server.js --inspect"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",
