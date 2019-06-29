@@ -1,8 +1,19 @@
 import * as Yup from 'yup';
 import { isAfter, parseISO } from 'date-fns';
+import { Op } from 'sequelize';
 import Meetup from '../models/Meetup';
 
 class MeetupController {
+  async index(req, res) {
+    const meetup = await Meetup.findAll({
+      where: {
+        user_id: req.userId,
+      },
+    });
+
+    return res.json(meetup);
+  }
+
   async store(req, res) {
     const schema = Yup.object().shape({
       name: Yup.string().required(),
@@ -58,7 +69,11 @@ class MeetupController {
     } = await meetup.update(req.body);
 
     return res.json({
-      id, name, description, location, date,
+      id,
+      name,
+      description,
+      location,
+      date,
     });
   }
 }
