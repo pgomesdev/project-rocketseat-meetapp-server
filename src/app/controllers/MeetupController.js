@@ -63,6 +63,10 @@ class MeetupController {
       return res.status(401).json({ error: "You don't have permission to update this meetup" });
     }
 
+    if (!isAfter(meetup.date, new Date())) {
+      return res.status(403).json({ error: "Can't edit a meetup that already ocurred" });
+    }
+
     const {
       id, name, description, location, date,
     } = await meetup.update(req.body);
