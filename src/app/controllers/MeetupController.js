@@ -79,6 +79,27 @@ class MeetupController {
       date,
     });
   }
+
+  async delete(req, res) {
+    const meetup = await Meetup.findByPk(req.params.id);
+    const response = meetup;
+
+    if (!meetup) {
+      return res.status(404).json({ error: 'Meetup not found' });
+    }
+
+    if (meetup.user_id !== req.userId) {
+      return res.status(401).json({ error: "You don't have permission to update this meetup" });
+    }
+
+    if (!isAfter(meetup.date, new Date())) {
+      return res.status(403).json({ error: "Can't delete a meetup that already ocurred" });
+    }
+
+    await meetup.destroy();
+
+    return res.json(response);
+  }
 }
 
 export default new MeetupController();
