@@ -29,6 +29,38 @@ class MeetupController {
 
     return res.json(meetup);
   }
+
+  async update(req, res) {
+    const schema = Yup.object().shape({
+      name: Yup.string(),
+      description: Yup.string(),
+      location: Yup.string(),
+      date: Yup.date(),
+      banner_id: Yup.number(),
+    });
+
+    if (!(await schema.isValid(req.body))) {
+      return res.status(400).json({ error: 'Invalid request' });
+    }
+
+    const meetup = await Meetup.findByPk(req.params.id);
+
+    if (!meetup) {
+      return res.status(404).json({ error: 'Meetup not found' });
+    }
+
+    if (meetup.user_id !== req.userId) {
+      return res.status(401).json({ error: "You don't have permission to update this meetup" });
+    }
+
+    const {
+      id, name, description, location, date,
+    } = await meetup.update(req.body);
+
+    return res.json({
+      id, name, description, location, date,
+    });
+  }
 }
 
 export default new MeetupController();

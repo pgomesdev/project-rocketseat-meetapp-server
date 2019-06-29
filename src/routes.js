@@ -23,6 +23,7 @@ routes.put('/users', UserController.update);
 
 // Meetup
 routes.post('/meetups', MeetupController.store);
+routes.put('/meetups/:id', MeetupController.update);
 
 // File
 routes.post('/files', upload.single('file'), FileController.store);
