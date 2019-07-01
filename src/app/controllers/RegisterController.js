@@ -38,8 +38,6 @@ class RegisterController {
 
     const meetupIds = userMeetups.map(id => id.meetup_id);
 
-    console.log(meetupIds);
-
     const countMeetupsInDate = await Meetup.count({
       where: {
         id: {
@@ -48,8 +46,6 @@ class RegisterController {
         date: meetup.date,
       },
     });
-
-    console.log(countMeetupsInDate);
 
     if (countMeetupsInDate > 0) {
       return res
