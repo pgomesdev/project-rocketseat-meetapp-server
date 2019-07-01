@@ -6,6 +6,7 @@ import SessionController from './app/controllers/SessionController';
 import FileController from './app/controllers/FileController';
 import MeetupController from './app/controllers/MeetupController';
 import RegisterController from './app/controllers/RegisterController';
+import AttendController from './app/controllers/AttendController';
 import auth from './app/middlewares/auth';
 
 const routes = new Router();
@@ -30,6 +31,9 @@ routes.delete('/meetups/:id', MeetupController.delete);
 
 // Schedule
 routes.get('/schedule', MeetupController.index);
+
+// Attend
+routes.get('/attend', AttendController.index);
 
 // Register
 routes.post('/register', RegisterController.store);
