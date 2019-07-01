@@ -2,6 +2,9 @@ import { isAfter } from 'date-fns';
 import { Op } from 'sequelize';
 import Register from '../models/Register';
 import Meetup from '../models/Meetup';
+import User from '../models/User';
+import Queue from '../../lib/Queue';
+import ConfirmationMail from '../jobs/ConfirmationMail';
 
 class RegisterController {
   async store(req, res) {
@@ -56,6 +59,37 @@ class RegisterController {
     const register = await Register.create({
       user_id: req.userId,
       meetup_id: req.body.meetupId,
+    });
+
+    const mailData = await Register.findOne({
+      where: {
+        user_id: req.userId,
+        meetup_id: req.body.meetupId,
+      },
+      attributes: ['id'],
+      include: [
+        {
+          model: Meetup,
+          as: 'meetup',
+          attributes: ['name'],
+          include: [
+            {
+              model: User,
+              as: 'user',
+              attributes: ['fullname', 'email'],
+            },
+          ],
+        },
+        {
+          model: User,
+          as: 'user',
+          attributes: ['fullname', 'email'],
+        },
+      ],
+    });
+
+    await Queue.add(ConfirmationMail.key, {
+      mailData,
     });
 
     return res.json(register);
