@@ -23,10 +23,13 @@ routes.use(auth);
 routes.put('/users', UserController.update);
 
 // Meetup
-routes.get('/meetups', MeetupController.index);
+routes.get('/meetups', MeetupController.store);
 routes.post('/meetups', MeetupController.store);
 routes.put('/meetups/:id', MeetupController.update);
 routes.delete('/meetups/:id', MeetupController.delete);
+
+// Schedule
+routes.get('/schedule', MeetupController.index);
 
 // Register
 routes.post('/register', RegisterController.store);
