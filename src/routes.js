@@ -5,6 +5,7 @@ import UserController from './app/controllers/UserController';
 import SessionController from './app/controllers/SessionController';
 import FileController from './app/controllers/FileController';
 import MeetupController from './app/controllers/MeetupController';
+import RegisterController from './app/controllers/RegisterController';
 import auth from './app/middlewares/auth';
 
 const routes = new Router();
@@ -26,6 +27,9 @@ routes.get('/meetups', MeetupController.index);
 routes.post('/meetups', MeetupController.store);
 routes.put('/meetups/:id', MeetupController.update);
 routes.delete('/meetups/:id', MeetupController.delete);
+
+// Register
+routes.post('/register', RegisterController.store);
 
 // File
 routes.post('/files', upload.single('file'), FileController.store);
