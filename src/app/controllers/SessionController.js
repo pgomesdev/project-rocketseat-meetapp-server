@@ -28,13 +28,20 @@ class SessionController {
       return res.status(401).json({ error: 'Invalid password' });
     }
 
-    const { id, name } = user;
+    const { id, fullname } = user;
 
     const token = jwt.sign({ id: user.id }, process.env.APP_SECRET, {
       expiresIn: '7d',
     });
 
-    return res.json({ user: { id, name, email }, token });
+    return res.json({
+      user: {
+        id,
+        fullname,
+        email,
+      },
+      token,
+    });
   }
 }
 
