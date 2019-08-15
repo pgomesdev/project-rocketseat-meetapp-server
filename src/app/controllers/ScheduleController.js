@@ -18,7 +18,7 @@ class ScheduleController {
         {
           model: File,
           as: 'banner',
-          attributes: ['name', 'path', 'url'],
+          attributes: ['id', 'name', 'path', 'url'],
         },
       ],
     });
