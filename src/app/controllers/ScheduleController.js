@@ -9,6 +9,7 @@ class ScheduleController {
         user_id: req.userId,
       },
       attributes: ['id', 'name', 'description', 'location', 'date'],
+      order: ['date'],
       include: [
         {
           model: User,
