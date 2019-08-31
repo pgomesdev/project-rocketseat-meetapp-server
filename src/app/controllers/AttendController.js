@@ -9,6 +9,7 @@ class AttendController {
     const meetup = await Register.findAll({
       where: {
         user_id: req.userId,
+        canceled_at: null,
       },
       attributes: ['id'],
       include: [

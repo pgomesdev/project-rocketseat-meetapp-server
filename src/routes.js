@@ -38,6 +38,7 @@ routes.get('/attend', AttendController.index);
 
 // Register
 routes.post('/register', RegisterController.store);
+routes.delete('/register/:meetupId', RegisterController.delete);
 
 // File
 routes.post('/files', upload.single('file'), FileController.store);

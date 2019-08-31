@@ -12,6 +12,7 @@ class RegisterController {
       where: {
         user_id: req.userId,
         meetup_id: req.body.meetupId,
+        canceled_at: [{ [Op.not]: null }],
       },
     });
 
@@ -36,6 +37,7 @@ class RegisterController {
     const userMeetups = await Register.findAll({
       where: {
         user_id: req.userId,
+        canceled_at: [{ [Op.not]: null }],
       },
     });
 
@@ -93,6 +95,29 @@ class RegisterController {
     });
 
     return res.json(register);
+  }
+
+  async delete(req, res) {
+    const { meetupId } = req.params;
+    const { userId } = req;
+
+    const meetup = await Register.findOne({
+      where: {
+        user_id: userId,
+        meetup_id: meetupId,
+        canceled_at: null,
+      },
+    });
+
+    if (!meetup) {
+      return res.status(404).json({ error: 'Not found' });
+    }
+
+    meetup.canceled_at = new Date();
+
+    await meetup.save();
+
+    return res.json(meetup);
   }
 }
 
