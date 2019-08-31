@@ -12,7 +12,6 @@ class AttendController {
         canceled_at: null,
       },
       attributes: ['id'],
-      order: ['date'],
       include: [
         {
           model: Meetup,
